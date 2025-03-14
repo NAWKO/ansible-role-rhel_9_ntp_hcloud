@@ -1,0 +1,11 @@
+---
+# tasks file for ansible_rhel_9_ntp_hcloud
+- name: NTP-Konfiguration deployen
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart chronyd

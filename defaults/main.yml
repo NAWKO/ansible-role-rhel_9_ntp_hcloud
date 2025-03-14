@@ -1,0 +1,46 @@
+---
+# defaults file for ansible_rhel_9_ntp_hcloud
+
+n_hcloud_ntp_servers:
+  - ntp1.hetzner.de
+  - ntp2.hetzner.com
+
+n_hcloud_ntp_allowed_subnets_enabled: true
+n_hcloud_ntp_allowed_subnets:
+  - 10.0.0.0/8
+
+n_hcloud_ntp_use_dhcp_enabled: true
+n_hcloud_ntp_dhcp_sourcedir: "/run/chrony-dhcp"
+
+n_hcloud_ntp_enable_rtcsync: true
+
+n_hcloud_ntp_driftfile_enabled: true
+n_hcloud_ntp_driftfile: "/var/lib/chrony/drift"
+
+n_hcloud_ntp_makestep_enabled: true
+n_hcloud_ntp_makestep_threshold: 1.0
+n_hcloud_ntp_makestep_limit: 3
+
+n_hcloud_ntp_hwtimestamp_enabled: false
+n_hcloud_ntp_hwtimestamp_interfaces: "*"
+
+n_hcloud_ntp_minsources_enabled: false
+n_hcloud_ntp_minsources: 2
+
+n_hcloud_ntp_local_stratum_enabled: false
+n_hcloud_ntp_local_stratum: 10
+
+n_hcloud_ntp_authselectmode_enabled: false
+n_hcloud_ntp_authselectmode: "require"
+
+n_hcloud_ntp_keyfile: "/etc/chrony.keys"
+n_hcloud_ntp_ntsdumpdir: "/var/lib/chrony"
+
+n_hcloud_ntp_leapsecmode_enabled: false
+n_hcloud_ntp_leapsecmode: "slew"
+
+n_hcloud_ntp_leapsectz: "right/UTC"
+
+n_hcloud_ntp_logging_enabled: false
+n_hcloud_ntp_logging_dir: "/var/log/chrony"
+n_hcloud_ntp_logging_selections: "measurements statistics tracking"

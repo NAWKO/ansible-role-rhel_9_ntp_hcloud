@@ -1,0 +1,76 @@
+# Auto-configuration by ansible_rhel_9_ntp_hcloud
+# Static NTP servers
+{% for server in n_hcloud_ntp_servers %}
+server {{ server }} iburst
+{% endfor %}
+{% if n_hcloud_ntp_use_dhcp_enabled | bool %}
+
+# Use NTP servers from DHCP.
+sourcedir {{ n_hcloud_ntp_dhcp_sourcedir }}
+{% endif %}
+{% if n_hcloud_ntp_driftfile_enabled | bool %}
+
+# Record the rate at which the system clock gains/losses time.
+driftfile {{ n_hcloud_ntp_driftfile }}
+{% endif %}
+{% if n_hcloud_ntp_makestep_enabled | bool %}
+
+# Allow the system clock to be stepped in the first three updates
+# if its offset is larger than 1 second.
+makestep {{ n_hcloud_ntp_makestep_threshold }} {{ n_hcloud_ntp_makestep_limit }}
+{% endif %}
+{% if n_hcloud_ntp_enable_rtcsync | bool %}
+
+# Enable kernel synchronization of the real-time clock (RTC).
+rtcsync
+{% endif %}
+{% if n_hcloud_ntp_hwtimestamp_enabled | bool %}
+
+# Enable hardware timestamping on all interfaces that support it.
+hwtimestamp {{ n_hcloud_ntp_hwtimestamp_interfaces }}
+{% endif %}
+{% if n_hcloud_ntp_minsources_enabled | bool %}
+
+# Increase the minimum number of selectable sources required to adjust
+# the system clock.
+minsources {{ n_hcloud_ntp_minsources }}
+{% endif %}
+{% if n_hcloud_ntp_allowed_subnets_enabled | bool %}
+
+# Allow NTP client access from local network.
+{% for subnet in n_hcloud_ntp_allowed_subnets %}
+allow {{ subnet }}
+{% endfor %}
+{% endif %}
+{% if n_hcloud_ntp_local_stratum_enabled | bool %}
+
+# Serve time even if not synchronized to a time source.
+local stratum {{ n_hcloud_ntp_local_stratum }}
+{% endif %}
+{% if n_hcloud_ntp_authselectmode_enabled | bool %}
+
+# Require authentication (nts or key option) for all NTP sources.
+authselectmode {{ n_hcloud_ntp_authselectmode }}
+{% endif %}
+
+# Specify file containing keys for NTP authentication.
+keyfile {{ n_hcloud_ntp_keyfile }}
+
+# Save NTS keys and cookies.
+ntsdumpdir {{ n_hcloud_ntp_ntsdumpdir }}
+{% if n_hcloud_ntp_leapsecmode_enabled | bool %}
+
+# Insert/delete leap seconds by slewing instead of stepping.
+leapsecmode {{ n_hcloud_ntp_leapsecmode }}
+{% endif %}
+
+# Get TAI-UTC offset and leap seconds from the system tz database.
+leapsectz {{ n_hcloud_ntp_leapsectz }}
+
+# Specify directory for log files.
+logdir {{ n_hcloud_ntp_logging_dir }}
+{% if n_hcloud_ntp_logging_enabled %}
+
+# Select which information is logged.
+log {{ n_hcloud_ntp_logging_selections }}
+{% endif %}

@@ -1,0 +1,6 @@
+---
+# handlers file for ansible_rhel_9_ntp_hcloud
+- name: restart chronyd
+  ansible.builtin.service:
+    name: chronyd
+    state: restarted

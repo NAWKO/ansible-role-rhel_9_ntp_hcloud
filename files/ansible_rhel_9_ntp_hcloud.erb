@@ -1,0 +1,316 @@
+<%#
+name: ansible_rhel_9_ntp_hcloud
+description: Set time zone and ntp servers
+snippet: false
+template_inputs:
+- name: general_ntp_servers
+  required: true
+  input_type: user
+  description: List of NTP servers, comma-separated (e.g. ntp1.example.com,ntp2.example.com).
+    Spaces are automatically trimmed.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: ntp1.hetzner.de, ntp2.hetzner.com
+  hidden_value: false
+- name: general_allowed_subnets_enabled
+  required: false
+  input_type: user
+  description: Set to true to restrict NTP client access to specific subnets, or false
+    to disable subnet restrictions.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_allowed_subnets
+  required: false
+  input_type: user
+  description: Allowed subnet(s) for NTP queries, comma-separated CIDR notation (e.g.
+    10.0.0.0/8,192.168.1.0/24). Spaces are automatically trimmed.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 10.0.0.0/8
+  hidden_value: false
+- name: general_ntp_use_dhcp_enabled
+  required: false
+  input_type: user
+  description: Controls actual usage of DHCP-provided NTP servers if enabled (true)
+    or ignores them (false).
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'true'
+  hidden_value: false
+- name: general_ntp_dhcp_sourcedir
+  required: false
+  input_type: user
+  description: Directory path from which Chrony reads DHCP-provided NTP server lists.
+    Default is /run/chrony-dhcp.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "/run/chrony-dhcp"
+  hidden_value: false
+- name: general_ntp_driftfile_enabled
+  required: false
+  input_type: user
+  description: Set to true to enable tracking of clock drift over time, or false to
+    disable this feature.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'true'
+  hidden_value: false
+- name: general_ntp_driftfile
+  required: false
+  input_type: user
+  description: Location of the driftfile Chrony uses to store clock drift data. Default
+    is /var/lib/chrony/drift.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "/var/lib/chrony/drift"
+  hidden_value: false
+- name: general_ntp_makestep_enabled
+  required: false
+  input_type: user
+  description: Set to true to allow stepping (sudden adjustment) of system clock if
+    the time offset exceeds a threshold.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'true'
+  hidden_value: false
+- name: general_ntp_makestep_threshold
+  required: false
+  input_type: user
+  description: Maximum allowed offset (in seconds) before stepping the system clock,
+    e.g. 1.0.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: '1.0'
+  hidden_value: false
+- name: general_ntp_makestep_limit
+  required: false
+  input_type: user
+  description: Maximum number of consecutive clock steps permitted before stepping
+    stops (e.g. 3).
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: '3'
+  hidden_value: false
+- name: general_enable_sync
+  required: false
+  input_type: user
+  description: Set to true to enable synchronization of the hardware Real-Time Clock
+    (RTC) with the system time.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'true'
+  hidden_value: false
+- name: general_ntp_hwtimestamp_enabled
+  required: false
+  input_type: user
+  description: Enable (true) or disable (false) hardware timestamping on compatible
+    interfaces.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_hwtimestamp_interfaces
+  required: false
+  input_type: user
+  description: Comma-separated interfaces for hardware timestamping (e.g. eth0,eth1).
+    Use * for all available interfaces.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "*"
+  hidden_value: false
+- name: general_ntp_minsources_enabled
+  required: false
+  input_type: user
+  description: Set to true to enforce a minimum number of selectable NTP sources for
+    synchronization.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_minsources
+  required: false
+  input_type: user
+  description: Minimum required selectable NTP sources, typically 2 or 3.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: '2'
+  hidden_value: false
+- name: general_ntp_local_stratum_enabled
+  required: false
+  input_type: user
+  description: Set to true to serve local time even when external NTP sources are
+    unavailable (useful for isolated networks).
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_local_stratum
+  required: false
+  input_type: user
+  description: Stratum number Chrony will announce when serving local time (usually
+    10).
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: '10'
+  hidden_value: false
+- name: general_ntp_authselectmode_enabled
+  required: false
+  input_type: user
+  description: Enable (true) or disable (false) mandatory authentication for all NTP
+    sources.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_authselectmode
+  required: false
+  input_type: user
+  description: Authentication mode, typically set to require to mandate authentication
+    for NTP sources.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: require
+  hidden_value: false
+- name: general_ntp_keyfile
+  required: false
+  input_type: user
+  description: File containing NTP authentication keys. Default is /etc/chrony.keys.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "/etc/chrony.keys"
+  hidden_value: false
+- name: general_ntp_ntsdumpdir
+  required: false
+  input_type: user
+  description: Directory where Network Time Security (NTS) keys and cookies are saved.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "/var/lib/chrony"
+  hidden_value: false
+- name: general_ntp_leapsecmode_enabled
+  required: false
+  input_type: user
+  description: Enable (true) or disable (false) smooth adjustment (slewing) for leap
+    seconds instead of stepping.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_leapsecmode
+  required: false
+  input_type: user
+  description: Method for leap second adjustments, usually set to slew for smooth
+    corrections.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: slew
+  hidden_value: false
+- name: general_ntp_leapsectz
+  required: false
+  input_type: user
+  description: Timezone database used for leap-second calculations. Default is right/UTC.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: right/UTC
+  hidden_value: false
+- name: general_ntp_logging_enabled
+  required: false
+  input_type: user
+  description: Enable (true) or disable (false) Chrony logging.
+  options: "true\r\nfalse"
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: 'false'
+  hidden_value: false
+- name: general_ntp_logging_dir
+  required: false
+  input_type: user
+  description: Directory for storing Chrony logs. Default is /var/log/chrony.
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: "/var/log/chrony"
+  hidden_value: false
+- name: general_ntp_logging_selections
+  required: false
+  input_type: user
+  description: Types of logging details (e.g. measurements statistics tracking).
+  advanced: false
+  value_type: plain
+  resource_type: Image
+  default: measurements statistics tracking
+  hidden_value: false
+model: JobTemplate
+job_category: Ansible Playbook
+provider_type: Ansible
+kind: job_template
+%>
+
+---
+- hosts: all
+  roles:
+    - role: ansible_rhel_9_ntp_hcloud
+      n_hcloud_ntp_servers: "{{ general_ntp_servers | split(',') | map('trim') | list }}"
+      n_hcloud_ntp_allowed_subnets_enabled: "{{ general_allowed_subnets_enabled }}"
+      n_hcloud_ntp_allowed_subnets: "{{ general_allowed_subnets | split(',') | map('trim') | list }}"
+      n_hcloud_ntp_use_dhcp_enabled: "{{ general_ntp_use_dhcp_enabled }}"
+      n_hcloud_ntp_dhcp_sourcedir: "{{ general_ntp_dhcp_sourcedir }}"
+      n_hcloud_ntp_driftfile_enabled: "{{ general_ntp_driftfile_enabled }}"
+      n_hcloud_ntp_driftfile: "{{ general_ntp_driftfile }}"
+      n_hcloud_ntp_makestep_enabled: "{{ general_ntp_makestep_enabled }}"
+      n_hcloud_ntp_makestep_threshold: "{{ general_ntp_makestep_threshold }}"
+      n_hcloud_ntp_makestep_limit: "{{ general_ntp_makestep_limit }}"
+      n_hcloud_ntp_enable_rtcsync: "{{ general_enable_sync }}"
+      n_hcloud_ntp_hwtimestamp_enabled: "{{ general_ntp_hwtimestamp_enabled }}"
+      n_hcloud_ntp_hwtimestamp_interfaces: "{{ general_ntp_hwtimestamp_interfaces }}"
+      n_hcloud_ntp_minsources_enabled: "{{ general_ntp_minsources_enabled }}"
+      n_hcloud_ntp_minsources: "{{ general_ntp_minsources }}"
+      n_hcloud_ntp_local_stratum_enabled: "{{ general_ntp_local_stratum_enabled }}"
+      n_hcloud_ntp_local_stratum: "{{ general_ntp_local_stratum }}"
+      n_hcloud_ntp_authselectmode_enabled: "{{ general_ntp_authselectmode_enabled }}"
+      n_hcloud_ntp_authselectmode: "{{ general_ntp_authselectmode }}"
+      n_hcloud_ntp_keyfile: "{{ general_ntp_keyfile }}"
+      n_hcloud_ntp_ntsdumpdir: "{{ general_ntp_ntsdumpdir }}"
+      n_hcloud_ntp_leapsecmode_enabled: "{{ general_ntp_leapsecmode_enabled }}"
+      n_hcloud_ntp_leapsecmode: "{{ general_ntp_leapsecmode }}"
+      n_hcloud_ntp_leapsectz: "{{ general_ntp_leapsectz }}"
+      n_hcloud_ntp_logging_enabled: "{{ general_ntp_logging_enabled }}"
+      n_hcloud_ntp_logging_dir: "{{ general_ntp_logging_dir }}"
+      n_hcloud_ntp_logging_selections: "{{ general_ntp_logging_selections }}"
