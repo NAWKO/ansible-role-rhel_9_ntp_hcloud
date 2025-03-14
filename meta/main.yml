@@ -1,6 +1,6 @@
 galaxy_info:
   role_name: ansible_rhel_9_ntp_hcloud
-  author: Pierre Nagl by NAWKO
+  author: Pierre Nagl
   description: "NTP configuration optimized for RHEL 9 servers in Hetzner Cloud."
   license: MIT
   min_ansible_version: "2.14"
