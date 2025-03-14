@@ -2,7 +2,7 @@
 
 Eine Ansible-Rolle, um Chrony (NTP)-Server auf Red Hat Enterprise Linux 9 und abgeleiteten Distributionen wie AlmaLinux oder Rocky Linux speziell für Hetzner Cloud Server zu konfigurieren.
 
-🇩🇪 **Hinweis:** Diese Rolle wurde mit ❤️ in Deutschland entwickelt.
+🇩🇪 **Hinweis:** Diese Rolle wurde mit ❤️ in Deutschland erstellt.
 
 ## Funktionen
 
@@ -111,5 +111,5 @@ Dieses Projekt steht unter der **MIT Lizenz** – weitere Details in der [LICENS
 
 ## Autor
 
-Pierre (NAWKO) - 📧 [pierre@nawko.de](mailto:pierre@nawko.de)
+Pierre by NAWKO
 
