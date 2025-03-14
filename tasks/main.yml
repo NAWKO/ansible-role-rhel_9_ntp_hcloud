@@ -1,5 +1,5 @@
 ---
-# tasks file for ansible_rhel_9_ntp_hcloud
+# tasks file for ansible-role-rhel_9_ntp_hcloud
 - name: NTP-Konfiguration deployen
   ansible.builtin.template:
     src: chrony.conf.j2

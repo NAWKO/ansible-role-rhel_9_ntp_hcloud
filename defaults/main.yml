@@ -1,5 +1,5 @@
 ---
-# defaults file for ansible_rhel_9_ntp_hcloud
+# defaults file for ansible-role-rhel_9_ntp_hcloud
 
 n_hcloud_ntp_servers:
   - ntp1.hetzner.de

@@ -1,5 +1,5 @@
 <%#
-name: ansible_rhel_9_ntp_hcloud
+name: ansible-role-rhel_9_ntp_hcloud
 description: Set time zone and ntp servers
 snippet: false
 template_inputs:
@@ -286,7 +286,7 @@ kind: job_template
 ---
 - hosts: all
   roles:
-    - role: ansible_rhel_9_ntp_hcloud
+    - role: ansible-role-rhel_9_ntp_hcloud
       n_hcloud_ntp_servers: "{{ general_ntp_servers | split(',') | map('trim') | list }}"
       n_hcloud_ntp_allowed_subnets_enabled: "{{ general_allowed_subnets_enabled }}"
       n_hcloud_ntp_allowed_subnets: "{{ general_allowed_subnets | split(',') | map('trim') | list }}"
