@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: ansible_rhel_9_ntp_hcloud
+  role_name: ansible-role-rhel_9_ntp_hcloud
   author: Pierre Nagl
   description: "NTP configuration optimized for RHEL 9 servers in Hetzner Cloud."
   license: MIT
