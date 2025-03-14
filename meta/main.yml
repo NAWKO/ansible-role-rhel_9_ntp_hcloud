@@ -1,13 +1,19 @@
+---
+# meta file for ansible-role-rhel_9_ntp_hcloud
+
 galaxy_info:
-  role_name: ansible-role-rhel_9_ntp_hcloud
   author: Pierre Nagl
   description: NTP configuration optimized for RHEL 9 servers in Hetzner Cloud.
+  company: NAWKO
   license: MIT
-  min_ansible_version: 2.14
+  min_ansible_version: "2.14"
   platforms:
     - name: EL
       versions:
         - "9"
-  galaxy_tags: ['ntp', 'chrony', 'hetzner', 'rhel9']
-
+  galaxy_tags:
+    - ntp
+    - chrony
+    - rhel9
+    - hetzner
 dependencies: []
